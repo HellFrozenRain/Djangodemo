@@ -5,8 +5,7 @@ from mainapp.apps import MainappConfig
 app_name = MainappConfig.name
 
 urlpatterns = [
-    # path('', views.HelloWorldView.as_view()),
-    # path('<str:word>/', views.blog),
+
     path('contacts/', views.ContactsView.as_view()),
     path('courses/', views.CoursesListView.as_view()),
     path('docsite', views.DocSiteView.as_view()),
