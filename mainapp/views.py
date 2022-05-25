@@ -1,6 +1,9 @@
 from django.views.generic import TemplateView
 from datetime import datetime
 
+from mainapp.models import News
+
+
 class ContactsView(TemplateView):
     template_name = 'mainapp/contacts.html'
 
@@ -47,31 +50,5 @@ class NewsView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
-        context_data['object_list'] = [
-            {
-                'title': 'новость раз',
-                'preview': 'Превью к новости раз',
-                'date': datetime.now(),
-            },    {
-                'title': 'новость два',
-                'preview': 'Превью к новости два',
-                'date': datetime.now(),
-            },    {
-                'title': 'новость три',
-                'preview': 'Превью к новости три',
-                'date': datetime.now(),
-            },    {
-                'title': 'новость четыре',
-                'preview': 'Превью к новости четыре',
-                'date': datetime.now(),
-            },    {
-                'title': 'новость пять',
-                'preview': 'Превью к новости пять',
-                'date': datetime.now(),
-            },    {
-                'title': 'новость шесть',
-                'preview': 'Превью к новости шесть',
-                'date': datetime.now(),
-            },
-        ]
+        context_data['object_list'] = News.objects.all()
         return context_data
