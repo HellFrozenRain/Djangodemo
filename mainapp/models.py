@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.db import models
 
 
@@ -29,7 +31,7 @@ class NewsManager(models.Manager):
         return super().get_queryset().filter(deleted=False)
 
 class News(BaseModel):
-    objects = NewsManager()
+    # objects = NewsManager()
 
     title = models.CharField(max_length=255, verbose_name='Заголовок')
     preamble = models.CharField(max_length=1000, verbose_name='Вступление')
@@ -83,3 +85,26 @@ class CoursesTeacher(BaseModel):
 
     def __str__(self):
         return "{0:0>3} {1} {2}".format(self.pk, self.name_second, self.name_first)
+
+class CourseFeedback(BaseModel):
+
+
+    RATINGS = (
+        (5, '*****'),
+        (4, '****'),
+        (3, '***'),
+        (2, '**'),
+        (1, '*'),
+    )
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, verbose_name='Курс')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name='Пользователь')
+    feedback = models.TextField(verbose_name='Отзыв', default="Без отзыва")
+
+    rating = models.SmallIntegerField(choices=RATINGS, default=5, verbose_name='Рейтинг')
+
+    class Meta:
+        verbose_name = ''
+        verbose_name_plural = ''
+
+        def __str__(self):
+            return f'Отзыва на {self.course} от {self.user}'
